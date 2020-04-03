@@ -1,27 +1,25 @@
 # Bungholio
 
-Monitors Amazon and sends a text when watched products (like TP) become available. It will send a text at most once per day per product.
+Monitors Amazon and sends a text when watched products (like TP) become available. It will send a Pushover notification at most once per day per product.
 
 **Note**
 
-Requires a Twilio account.
+Requires a Pushover account.
 
 ## Installation
 
 1. Clone this repo.
 2. `npm install` or `yarn install`
 3. Modify items.json with the name and url of products you want to watch.
-4. Create a .env file with the following Twilio attributes
+4. Create a .env file with the following Pushover attributes
 
 ```
-accountSid=twilioSid
-authToken=TwilioAuthToken
-twilioFrom='+yourTwilioPhoneNumber'
-twilioTo='+phoneNumberToText'
+PUSHOVER_USER=[your user token]
+PUSHOVER_TOKEN=[your app token]
 ```
 
 5. Run it
 
 ```
-   node index.js
+   yarn start
 ```

@@ -1,37 +1,56 @@
-const puppeteer = require('puppeteer');
-const Promise = require('bluebird');
-const fs = require('fs');
-const moment = require('moment');
+const puppeteer = require("puppeteer");
+const fs = require("fs");
+const moment = require("moment");
+const Pushover = require("pushover-notifications");
 
-require('dotenv').config();
+require("dotenv").config();
 
-const client = require('twilio')(process.env.accountSid, process.env.authToken);
+const LOOP_DELAY = 3 * 60 * 1000; // 3 minutes
+const NAV_DELAY = 3 * 1000; // 3 seconds
 
-const file = require('./items');
+const pusher = new Pushover({
+  user: process.env["PUSHOVER_USER"],
+  token: process.env["PUSHOVER_TOKEN"]
+});
 
-const items = file.items;
+const items = require("./items").items;
+
+const foundDbPath = "./found_db.json";
+let foundDb = {};
+
+if (fs.existsSync(foundDbPath)) {
+  console.info(`${foundDbPath} exists; loading`);
+  foundDb = require(foundDbPath);
+}
 
 async function checkItem(page, item) {
   console.log(`Checking ${item.name}`);
   await page.goto(item.url);
 
-  const canAdd = await page.$('#add-to-cart-button');
+  const canAdd = await page.$("#add-to-cart-button");
   const notInStock = (await page.content()).match(/in stock on/gi);
 
   return canAdd && !notInStock;
 }
 
-async function sendSMS(item) {
-  return client.messages.create({
-    body: `${item.name} available! ${item.url}`,
-    from: process.env.twilioFrom,
-    to: process.env.twilioTo
-  });
+async function sendNotification(item) {
+  pusher.send(
+    {
+      message: `${item.name} available ➡️ ${item.url}`,
+      title: "😄" + item.name + " available "
+    },
+    function(err, result) {
+      if (err) {
+        console.error("Failed to deliver notification: ", err);
+        return;
+      }
+
+      console.log("Notification delivered: ", result);
+    }
+  );
 }
 
-async function run() {
-  console.log('');
-  console.log(`Starting at ${moment().toISOString()}`);
+async function runChecks() {
   const browser = await puppeteer.launch();
 
   const page = await browser.newPage();
@@ -41,39 +60,41 @@ async function run() {
     height: 1050
   });
 
-  await Promise.map(
-    items,
-    async item => {
-      const oneDayAgo = moment().subtract(1, 'days');
-      if (!item.found || moment(item.found).isBefore(oneDayAgo)) {
-        const available = await checkItem(page, item);
+  for (const item of items) {
+    const oneDayAgo = moment().subtract(1, "days");
+    if (!foundDb[item.name] || moment(foundDb[item.name]).isBefore(oneDayAgo)) {
+      const available = await checkItem(page, item);
 
-        if (available) {
-          item.found = moment().toISOString();
-          console.log(`${item.name} is available.`);
-          await sendSMS(item);
-        } else {
-          console.log(`${item.name} is not available.`);
-        }
-        console.log('Waiting...');
-        return Promise.delay(4000);
+      if (available) {
+        foundDb[item.name] = moment().toISOString();
+        console.log(`Item '${item.name}' is available.`);
+        await sendNotification(item);
+      } else {
+        console.log(`Item '${item.name}' is not available. `);
       }
-    },
-    { concurrency: 1 }
-  );
+      console.log(`Waiting ${NAV_DELAY / 1000} seconds...`);
+      await new Promise(resolve => setTimeout(resolve, NAV_DELAY));
+    } else {
+      console.log(`Item '${item.name}' found recently, skipping check`);
+    }
+  }
 
-  const update = { items: items };
-  console.log('finishing...');
-  fs.writeFileSync('items.json', JSON.stringify(update, null, 4));
+  console.log("finishing...");
+  fs.writeFileSync(foundDbPath, JSON.stringify(foundDb, null, 4));
   await browser.close();
-  console.log('browser closed');
+  console.log("browser closed");
   return;
 }
 
-run();
+const runLoop = async () => {
+  console.log(`\nStarting at ${moment().toISOString()}`);
+  await runChecks();
+  console.log(`Next run in ${LOOP_DELAY / 1000} seconds`);
+};
 
-setInterval(async function() {
-  await run();
-  console.log('back');
-  console.log('waiting 15 minutes');
-}, 15 * 60 * 1000);
+runLoop();
+let timerId = setTimeout(async function request() {
+  await runLoop();
+
+  timerId = setTimeout(request, LOOP_DELAY);
+}, LOOP_DELAY);

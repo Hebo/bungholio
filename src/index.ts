@@ -1,7 +1,9 @@
-const puppeteer = require("puppeteer");
-const fs = require("fs");
-const moment = require("moment");
-const Pushover = require("pushover-notifications");
+import puppeteer from "puppeteer";
+import fs from "fs";
+import moment from "moment";
+import Pushover from "pushover-notifications";
+import { Item } from "types";
+import { Amazon, Walmart } from "./retailers";
 
 require("dotenv").config();
 
@@ -13,33 +15,31 @@ const pusher = new Pushover({
   token: process.env["PUSHOVER_TOKEN"]
 });
 
-const items = require("./items").items;
+interface FoundDB {
+  [index: string]: string;
+}
 
-const foundDbPath = "./found_db.json";
-let foundDb = {};
+const items: Item[] = require("./items").items;
 
+const foundDbPath = "./found.db.json";
+let foundDb: FoundDB = {};
 if (fs.existsSync(foundDbPath)) {
   console.info(`${foundDbPath} exists; loading`);
-  foundDb = require(foundDbPath);
+  foundDb = JSON.parse(fs.readFileSync(foundDbPath).toString());
 }
 
-async function checkItem(page, item) {
-  console.log(`Checking ${item.name}`);
-  await page.goto(item.url);
+let amazon = new Amazon();
+let walmart = new Walmart();
 
-  const canAdd = await page.$("#add-to-cart-button");
-  const notInStock = (await page.content()).match(/in stock on/gi);
+let retailers = [amazon, walmart];
 
-  return canAdd && !notInStock;
-}
-
-async function sendNotification(item) {
+async function sendNotification(item: Item) {
   pusher.send(
     {
       message: `${item.name} available ➡️ ${item.url}`,
       title: "😄" + item.name + " available "
     },
-    function(err, result) {
+    function(err: Error, result: any) {
       if (err) {
         console.error("Failed to deliver notification: ", err);
         return;
@@ -63,7 +63,21 @@ async function runChecks() {
   for (const item of items) {
     const oneDayAgo = moment().subtract(1, "days");
     if (!foundDb[item.name] || moment(foundDb[item.name]).isBefore(oneDayAgo)) {
-      const available = await checkItem(page, item);
+      console.log(`Checking ${item.name}`);
+      let available = false;
+      let matched = false;
+
+      for (let retailer of retailers) {
+        if (retailer.matchURL(item.url)) {
+          matched = true;
+          console.log("Processing with " + retailer.name);
+          available = await retailer.checkItem(page, item);
+          break;
+        }
+      }
+      if (!matched) {
+        console.log(`No retailer found for URL '${item.url}'`);
+      }
 
       if (available) {
         foundDb[item.name] = moment().toISOString();

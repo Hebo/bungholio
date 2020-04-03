@@ -23,3 +23,7 @@ PUSHOVER_TOKEN=[your app token]
 ```
    yarn start
 ```
+
+### Managing tracked items
+
+To get URLs for out of stock items, use [brickseek.com](https://brickseek.com/p/ring-fit-adventure-nintendo/8268995)

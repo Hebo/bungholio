@@ -1,0 +1,48 @@
+{
+  "items": [
+    {
+      "name": "A Test Item",
+      "url": "https://www.amazon.com/gp/product/B00004Y8DQ/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1"
+    },
+    {
+      "name": "A Test Item - wm yes",
+      "url": "https://www.walmart.com/ip/Madden-NFL-20-Electronic-Arts-Xbox-One-014633738391/804457083"
+    },
+    {
+      "name": "Ring Fit Adventure",
+      "url": "https://www.amazon.com/Ring-Fit-Adventure-Nintendo-Switch/dp/B07XV4NHHN/ref=sr_1_2?dchild=1&keywords=ring+fit+adventure&qid=1585936303&sr=8-2"
+    },
+    {
+      "name": "Ring Fit Adventure - Walmart",
+      "url": "https://www.walmart.com/ip/Nintendo-Switch-Ring-Fit-Adventure-Black/434503657?irgwc=1&sourceid=imp_QTyzoo2dPxyORV9wUx0Mo34BUki0aASJMzN9Q40&veh=aff&wmlspartner=imp_1914133&clickid=QTyzoo2dPxyORV9wUx0Mo34BUki0aASJMzN9Q40"
+    },
+    {
+      "name": "Core Fitness Adjustable Dumbbell Weight Set",
+      "url": "https://www.amazon.com/Core-Fitness-Adjustable-Affordable-Dumbbells/dp/B01J8S38LW/ref=olp_product_details?ie=UTF8&me="
+    },
+    {
+      "name": "Core Fitness Adjustable Dumbbell Weight Set - Walmart",
+      "url": "https://www.walmart.com/ip/Core-Home-Fitness-Adjustable-Dumbbell-Pair-5-50-lbs/855785702?irgwc=1&sourceid=imp_QTyzoo2dPxyORV9wUx0Mo34BUki0auyVMzN9Q40&veh=aff&wmlspartner=imp_197432&clickid=QTyzoo2dPxyORV9wUx0Mo34BUki0auyVMzN9Q40"
+    },
+    {
+      "name": "Ruffles Sour Cream & Onion",
+      "url": "https://www.amazon.com/gp/product/B00N0X27XM/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
+    },
+    {
+      "name": "Ruffles Cheddar & Sour Cream",
+      "url": "https://www.amazon.com/gp/product/B01B5KQCCS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
+    },
+    {
+      "name": "Bounty Quick-Size Paper Towels",
+      "url": "https://www.amazon.com/gp/product/B079VP6DH5/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
+    },
+    {
+      "name": "Presto! Flex-a-Size Paper Towels",
+      "url": "https://www.amazon.com/gp/product/B074CR89QG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
+    },
+    {
+      "name": "AMMEX Medical Clear Vinyl Gloves",
+      "url": "https://www.amazon.com/gp/product/B008RFQ7W0/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
+    }
+  ]
+}

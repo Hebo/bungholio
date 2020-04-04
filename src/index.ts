@@ -10,6 +10,12 @@ require("dotenv").config();
 const LOOP_DELAY = 3 * 60 * 1000; // 3 minutes
 const NAV_DELAY = 3 * 1000; // 3 seconds
 
+
+// console.log("")
+if (!process.env["PUSHOVER_USER"] || !process.env["PUSHOVER_TOKEN"]) {
+  throw new Error("Environment variables PUSHOVER_USER and PUSHOVER_TOKEN are required");
+}
+
 const pusher = new Pushover({
   user: process.env["PUSHOVER_USER"],
   token: process.env["PUSHOVER_TOKEN"]
@@ -51,7 +57,7 @@ async function sendNotification(item: Item) {
 }
 
 async function runChecks() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
 
   const page = await browser.newPage();
 

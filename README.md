@@ -1,6 +1,6 @@
 # Bungholio
 
-Monitors Amazon and sends a text when watched products (like TP) become available. It will send a Pushover notification at most once per day per product.
+Monitors Amazon and other retailers (currently just Walmart) and sends a text when watched products (like TP) become available. It will send a Pushover notification at most once per day per product.
 
 **Note**
 
@@ -27,3 +27,7 @@ PUSHOVER_TOKEN=[your app token]
 ### Managing tracked items
 
 To get URLs for out of stock items, use [brickseek.com](https://brickseek.com/p/ring-fit-adventure-nintendo/8268995)
+
+### Deploying
+
+If deploying to Linux, additional deb packages are required (in `apt-packages`). The [dokku-apt](https://github.com/dokku-community/dokku-apt) plugin handles this automatically for dokku apps.

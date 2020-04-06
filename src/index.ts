@@ -1,16 +1,17 @@
-import puppeteer from "puppeteer";
+import logger from "consola";
 import fs from "fs";
 import moment from "moment";
+import puppeteer from "puppeteer";
 import Pushover from "pushover-notifications";
+import Hjson from "hjson";
 import { Item } from "types";
-import { Amazon, Walmart, Target } from "./retailers";
-import logger from "consola";
+import dotenv from "dotenv";
+import { Amazon, Bestbuy, Target, Walmart } from "./retailers";
 
-require("dotenv").config();
-
-const LOOP_DELAY = 3 * 60 * 1000; // 3 minutes
+const LOOP_DELAY = 1 * 60 * 1000; // 1 minute
 const NAV_DELAY = 3 * 1000; // 3 seconds
 
+dotenv.config();
 if (!process.env["PUSHOVER_USER"] || !process.env["PUSHOVER_TOKEN"]) {
   throw new Error(
     "Environment variables PUSHOVER_USER and PUSHOVER_TOKEN are required"
@@ -26,7 +27,15 @@ interface FoundDB {
   [index: string]: string;
 }
 
-const items: Item[] = require("../items").items;
+const itemsPath = "./items.hjson";
+let items: Item[];
+if (fs.existsSync(itemsPath)) {
+  items = Hjson.parse(fs.readFileSync(itemsPath).toString()).items;
+  console.info(`Loaded ${items.length} items to monitor`);
+} else {
+  logger.error("Items list missing: ", itemsPath);
+  process.exit(1);
+}
 
 const foundDbPath = "./found.db.json";
 let foundDb: FoundDB = {};
@@ -35,7 +44,7 @@ if (fs.existsSync(foundDbPath)) {
   foundDb = JSON.parse(fs.readFileSync(foundDbPath).toString());
 }
 
-let retailers = [new Amazon(), new Walmart(), new Target()];
+let retailers = [new Amazon(), new Walmart(), new Target(), new Bestbuy()];
 
 async function sendNotification(item: Item) {
   pusher.send(
@@ -61,6 +70,10 @@ async function runChecks() {
 
   const page = await browser.newPage();
 
+  await page.setUserAgent(
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36"
+  );
+
   await page.setViewport({
     width: 1680,
     height: 1050,
@@ -77,7 +90,11 @@ async function runChecks() {
         if (retailer.matchURL(item.url)) {
           matched = true;
           logger.log("Processing with " + retailer.name);
-          available = await retailer.checkItem(page, item);
+          try {
+            available = await retailer.checkItem(page, item);
+          } catch (error) {
+            logger.error(`Failed to check '${item.name}':`, error)
+          }
           break;
         }
       }
@@ -112,9 +129,10 @@ const runLoop = async () => {
   logger.log(`Next run in ${LOOP_DELAY / 1000} seconds`);
 };
 
-runLoop();
-let timerId = setTimeout(async function request() {
-  await runLoop();
+runLoop().then(() => {
+  let timerId = setTimeout(async function request() {
+    await runLoop();
 
-  timerId = setTimeout(request, LOOP_DELAY);
-}, LOOP_DELAY);
+    timerId = setTimeout(request, LOOP_DELAY);
+  }, LOOP_DELAY);
+});

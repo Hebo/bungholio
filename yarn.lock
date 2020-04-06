@@ -35,6 +35,11 @@
     "@types/qs" "*"
     "@types/serve-static" "*"
 
+"@types/hjson@^2.4.1":
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/@types/hjson/-/hjson-2.4.1.tgz#a6fc8649777b63f979193d2d5c108a71b3d414d9"
+  integrity sha512-yXq/C73UHM8GQc6RYJnUXUgxudr2Q9227Iawhkp03YCnfJJTc+6LJnnVLx+UR/Dvw6imO5Q3vpGNmR9IRBI0JQ==
+
 "@types/mime-types@^2.1.0":
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/@types/mime-types/-/mime-types-2.1.0.tgz#9ca52cda363f699c69466c2a6ccdaad913ea7a73"
@@ -238,6 +243,11 @@ glob@^7.1.3:
     minimatch "^3.0.4"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
+
+hjson@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/hjson/-/hjson-3.2.1.tgz#20de41dc87fc9a10d1557d0230b0e02afb1b09ac"
+  integrity sha512-OhhrFMeC7dVuA1xvxuXGTv/yTdhTvbe8hz+3LgVNsfi9+vgz0sF/RrkuX8eegpKaMc9cwYwydImBH6iePoJtdQ==
 
 https-proxy-agent@^4.0.0:
   version "4.0.0"

@@ -13,10 +13,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/hjson": "^2.4.1",
     "@types/node": "^13.11.0",
     "@types/puppeteer": "^2.0.1",
     "consola": "^2.11.3",
     "dotenv": "^8.2.0",
+    "hjson": "^3.2.1",
     "moment": "^2.24.0",
     "puppeteer": "^2.1.1",
     "pushover-notifications": "^1.2.2",

@@ -8,13 +8,22 @@ interface Retailer {
   matchURL(url: string): boolean;
 }
 
-export class Retail {}
+export class Retail {
+  name : string
+  storeRegex: RegExp
+  constructor(name: string, store: RegExp) {
+    this.name = name
+    this.storeRegex = store
+  }
+
+  matchURL(url: string) {
+    return this.storeRegex.test(url);
+  }
+}
 
 export class Amazon extends Retail implements Retailer {
-  name: string;
   constructor() {
-    super();
-    this.name = "Amazon";
+    super("Amazon", /amazon\.com/);
   }
 
   async checkItem(page: puppeteer.Page, item: Item) {
@@ -26,17 +35,11 @@ export class Amazon extends Retail implements Retailer {
     return !!(canAdd && !notInStock);
   }
 
-  matchURL(url: string) {
-    return /amazon\.com/.test(url);
-  }
 }
 
 export class Walmart extends Retail implements Retailer {
-  name: string;
-
   constructor() {
-    super();
-    this.name = "Walmart";
+    super("Walmart", /walmart\.com/);
   }
 
   async checkItem(page: puppeteer.Page, item: Item) {
@@ -48,7 +51,19 @@ export class Walmart extends Retail implements Retailer {
     return !!(canAdd && !notInStock);
   }
 
-  matchURL(url: string) {
-    return /walmart\.com/.test(url);
+}
+
+export class Target extends Retail implements Retailer {
+  constructor() {
+    super("Target", /target\.com/);
+  }
+
+  async checkItem(page: puppeteer.Page, item: Item) {
+    await page.goto(item.url);
+
+    const canAdd = await page.$("[data-test=shippingATCButton]");
+    const notInStock = (await page.content()).match(/Not available/gi);
+
+    return !!(canAdd && !notInStock);
   }
 }

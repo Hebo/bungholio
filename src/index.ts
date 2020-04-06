@@ -9,7 +9,7 @@ import dotenv from "dotenv";
 import { Amazon, Bestbuy, Target, Walmart } from "./retailers";
 
 const LOOP_DELAY = 1 * 60 * 1000; // 1 minute
-const NAV_DELAY = 3 * 1000; // 3 seconds
+const NAV_DELAY = 1 * 1000; // 1 second
 
 dotenv.config();
 if (!process.env["PUSHOVER_USER"] || !process.env["PUSHOVER_TOKEN"]) {

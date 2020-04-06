@@ -11,7 +11,6 @@ const LOOP_DELAY = 3 * 60 * 1000; // 3 minutes
 const NAV_DELAY = 3 * 1000; // 3 seconds
 
 
-// console.log("")
 if (!process.env["PUSHOVER_USER"] || !process.env["PUSHOVER_TOKEN"]) {
   throw new Error("Environment variables PUSHOVER_USER and PUSHOVER_TOKEN are required");
 }
@@ -25,7 +24,7 @@ interface FoundDB {
   [index: string]: string;
 }
 
-const items: Item[] = require("./items").items;
+const items: Item[] = require("../items").items;
 
 const foundDbPath = "./found.db.json";
 let foundDb: FoundDB = {};

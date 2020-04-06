@@ -1,14 +1,6 @@
 {
   "items": [
     {
-      "name": "A Test Item",
-      "url": "https://www.amazon.com/gp/product/B00004Y8DQ/ref=ppx_yo_dt_b_asin_title_o01_s00?ie=UTF8&psc=1"
-    },
-    {
-      "name": "A Test Item - wm yes",
-      "url": "https://www.walmart.com/ip/Madden-NFL-20-Electronic-Arts-Xbox-One-014633738391/804457083"
-    },
-    {
       "name": "Ring Fit Adventure",
       "url": "https://www.amazon.com/Ring-Fit-Adventure-Nintendo-Switch/dp/B07XV4NHHN/ref=sr_1_2?dchild=1&keywords=ring+fit+adventure&qid=1585936303&sr=8-2"
     },

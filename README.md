@@ -1,4 +1,4 @@
-# Bungholio
+# Panic Basket
 
 Monitors Amazon and other retailers (Walmart, Target) and sends a text when watched products (like TP) become available. It will send a Pushover notification at most once per day per product.
 

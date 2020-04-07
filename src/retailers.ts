@@ -76,9 +76,8 @@ export class Bestbuy extends Retail implements Retailer {
   async checkItem(page: puppeteer.Page, item: Item) {
     // Bestbuy.com is extremely slow; times out frequently and slows down the rest
     // of the app. Re-enable at your own risk
-    logger.warn("Bestbuy handler disabled due to poor site performance")
-    return false
-
+    logger.warn("Bestbuy handler disabled due to poor site performance");
+    return false;
 
     await page.goto(item.url);
 
@@ -90,5 +89,33 @@ export class Bestbuy extends Retail implements Retailer {
     const notInStock = cartBtnContent?.match(/Sold Out/gi);
 
     return !!(canAdd && !notInStock);
+  }
+}
+
+export class CoreHomeFitness extends Retail implements Retailer {
+  constructor() {
+    super("CoreHomeFitness", /corehomefitness\.com/);
+  }
+
+  async checkItem(page: puppeteer.Page, item: Item) {
+    await page.goto(item.url);
+
+    const productDetailsElement = await page.$("#productDetails");
+    const productDetailsRaw = await productDetailsElement?.evaluate(
+      (node: any) => node["dataset"].variants
+    );
+    try {
+      const details = JSON.parse(productDetailsRaw);
+      const stockQuantity = details[0].qtyInStock;
+      if (stockQuantity > 0) {
+        console.info(`Product Details: ${details[0].qtyInStock} in stock`);
+      }
+    } catch (error) {
+      console.warn("Failed to parse product details");
+    }
+
+    const notInStock = (await page.content()).match(/sold out/gi);
+
+    return !notInStock;
   }
 }

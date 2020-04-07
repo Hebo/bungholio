@@ -1,7 +1,8 @@
 const readline = require("readline");
 const puppeteer = require("puppeteer");
 
-const DEBUG_PAGE = "https://www.bestbuy.com/site/ring-fit-adventure-nintendo-switch/6352149.p?acampID=633495&irclickid=zqHS6VXL%3AxyJWq90EHQlB1XYUkix2LX1MzN9Q40&irgwc=1&loc=zqHS6VXL%3AxyJWq90EHQlB1XYUkix2LX1MzN9Q40&mpid=118528&ref=198&skuId=6352149";
+const DEBUG_PAGE =
+  "https://www.corehomefitness.com/products/core-home-fitness-adjustable-dumbbell-set";
 
 let page;
 
@@ -12,7 +13,7 @@ process.stdin.on("keypress", (str, key) => {
     process.exit();
   } else {
     page.screenshot({ path: "example.png" });
-    console.log("Screenshot snapped!")
+    console.log("Screenshot snapped!");
   }
 });
 console.log("Press any key to take a screenshot...");
@@ -20,8 +21,8 @@ console.log("Press any key to take a screenshot...");
 async function run() {
   const browser = await puppeteer.launch({
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    // headless: true,
-    headless: false,
+    headless: true,
+    // headless: false,
   });
 
   page = await browser.newPage();
@@ -47,7 +48,20 @@ async function run() {
     page.waitForNavigation({ waitUntil: "load" }),
   ]);
   console.log("done");
-  //  await page.evaluate(() => console.log(`url is ${location.href}`));
+
+  const stock = await page.$("#productDetails");
+  const productDetailsRaw = await stock.evaluate(
+    (node) => node.dataset.variants
+  );
+  try {
+    const details = JSON.parse(productDetailsRaw);
+    const stockQuantity = details[0].qtyInStock;
+    if (stockQuantity > 0) {
+      console.info(`Product Details: ${details[0].qtyInStock} in stock`);
+    }
+  } catch (error) {
+    console.warn("Failed to parse product details");
+  }
 }
 
 run();

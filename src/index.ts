@@ -6,7 +6,7 @@ import Pushover from "pushover-notifications";
 import Hjson from "hjson";
 import { Item } from "types";
 import dotenv from "dotenv";
-import { Amazon, Bestbuy, Target, Walmart } from "./retailers";
+import { Amazon, Bestbuy, Target, Walmart, CoreHomeFitness } from "./retailers";
 
 const LOOP_DELAY = 1 * 60 * 1000; // 1 minute
 const NAV_DELAY = 1 * 1000; // 1 second
@@ -44,7 +44,13 @@ if (fs.existsSync(foundDbPath)) {
   foundDb = JSON.parse(fs.readFileSync(foundDbPath).toString());
 }
 
-let retailers = [new Amazon(), new Walmart(), new Target(), new Bestbuy()];
+let retailers = [
+  new Amazon(),
+  new Walmart(),
+  new Target(),
+  new Bestbuy(),
+  new CoreHomeFitness(),
+];
 
 async function sendNotification(item: Item) {
   pusher.send(
@@ -93,7 +99,7 @@ async function runChecks() {
           try {
             available = await retailer.checkItem(page, item);
           } catch (error) {
-            logger.error(`Failed to check '${item.name}':`, error)
+            logger.error(`Failed to check '${item.name}':`, error);
           }
           break;
         }

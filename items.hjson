@@ -39,7 +39,7 @@
     {
       "name": "Ruffles Cheddar & Sour Cream",
       "url": "https://www.amazon.com/gp/product/B01B5KQCCS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
-    },
+    }
     // Got enough!
     // {
     //   "name": "Bounty Quick-Size Paper Towels",
@@ -49,9 +49,9 @@
     //   "name": "Presto! Flex-a-Size Paper Towels",
     //   "url": "https://www.amazon.com/gp/product/B074CR89QG/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
     // },
-    {
-      "name": "AMMEX Medical Clear Vinyl Gloves",
-      "url": "https://www.amazon.com/gp/product/B008RFQ7W0/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
-    }
+    // {
+    //   "name": "AMMEX Medical Clear Vinyl Gloves",
+    //   "url": "https://www.amazon.com/gp/product/B008RFQ7W0/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
+    // }
   ]
 }

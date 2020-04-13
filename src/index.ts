@@ -6,7 +6,7 @@ import Pushover from "pushover-notifications";
 import Hjson from "hjson";
 import { Item } from "types";
 import dotenv from "dotenv";
-import { Amazon, Bestbuy, Target, Walmart, CoreHomeFitness } from "./retailers";
+import { Amazon, Bestbuy, Target, Walmart, CoreHomeFitness, DicksSportingGoods } from "./retailers";
 
 const LOOP_DELAY = 1 * 60 * 1000; // 1 minute
 const NAV_DELAY = 1 * 1000; // 1 second
@@ -50,6 +50,7 @@ let retailers = [
   new Target(),
   new Bestbuy(),
   new CoreHomeFitness(),
+  new DicksSportingGoods(),
 ];
 
 async function sendNotification(item: Item) {

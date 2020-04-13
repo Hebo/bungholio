@@ -119,3 +119,17 @@ export class CoreHomeFitness extends Retail implements Retailer {
     return !notInStock;
   }
 }
+
+export class DicksSportingGoods extends Retail implements Retailer {
+  constructor() {
+    super("DicksSportingGoods", /dickssportinggoods.com/);
+  }
+
+  async checkItem(page: puppeteer.Page, item: Item) {
+    await page.goto(item.url);
+
+    const notInStock = (await page.content()).match(/Not Available to Ship/gi);
+
+    return !notInStock;
+  }
+}

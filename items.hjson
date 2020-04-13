@@ -29,6 +29,10 @@
       "url": "https://www.corehomefitness.com/products/core-home-fitness-adjustable-dumbbell-set"
     },
     {
+      "name": "Core Fitness Adjustable Dumbbell Weight Set - Dicks",
+      "url": "https://www.dickssportinggoods.com/p/core-fitness-5-50-lb-adjustable-dumbbells-pair-16cfiucrftnssdjdmslc/16cfiucrftnssdjdmslc"
+    },
+    {
       "name": "Ruffles Sour Cream & Onion",
       "url": "https://www.amazon.com/gp/product/B00N0X27XM/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
     },
@@ -40,11 +44,11 @@
       "name": "Ruffles Cheddar & Sour Cream",
       "url": "https://www.amazon.com/gp/product/B01B5KQCCS/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"
     },
-    {
-      "name": "Solimo Hand Sanitizer",
-      "url": "https://www.amazon.com/gp/product/B07NFX5Q2Z?SubscriptionId=AKIAJF4X3QDDEUEKC7FA&tag=nismain-20&linkCode=xm2&camp=2025&creative=5143&creativeASIN=B07NFX5Q2Z&m=ATVPDKIKX0DER"
-    }
     // Got enough!
+    // {
+    //   "name": "Solimo Hand Sanitizer",
+    //   "url": "https://www.amazon.com/gp/product/B07NFX5Q2Z?SubscriptionId=AKIAJF4X3QDDEUEKC7FA&tag=nismain-20&linkCode=xm2&camp=2025&creative=5143&creativeASIN=B07NFX5Q2Z&m=ATVPDKIKX0DER"
+    // }
     // {
     //   "name": "Bounty Quick-Size Paper Towels",
     //   "url": "https://www.amazon.com/gp/product/B079VP6DH5/ref=ppx_yo_dt_b_search_asin_title?ie=UTF8&psc=1"

@@ -128,8 +128,9 @@ export class DicksSportingGoods extends Retail implements Retailer {
   async checkItem(page: puppeteer.Page, item: Item) {
     await page.goto(item.url);
 
+    const canAdd = await page.$("#add-to-cart");
     const notInStock = (await page.content()).match(/Not Available to Ship/gi);
 
-    return !notInStock;
+    return !!(canAdd && !notInStock);
   }
 }

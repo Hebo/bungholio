@@ -8,7 +8,7 @@ import { Item } from "types";
 import dotenv from "dotenv";
 import { Amazon, Bestbuy, Target, Walmart, CoreHomeFitness, DicksSportingGoods } from "./retailers";
 
-const LOOP_DELAY = 1 * 60 * 1000; // 1 minute
+const LOOP_DELAY = 1 * 45 * 1000; // 45 seconds
 const NAV_DELAY = 1 * 1000; // 1 second
 
 dotenv.config();
